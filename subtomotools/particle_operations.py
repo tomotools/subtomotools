@@ -1,13 +1,14 @@
 import os
+from pathlib import Path
+import subprocess
+
 import click
 import starfile
 import mrcfile
-import subprocess
 
 import numpy as np
 import pandas as pd
 
-from pathlib import Path
 from tqdm import tqdm
 
 

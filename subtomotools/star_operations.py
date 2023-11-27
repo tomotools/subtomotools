@@ -1,10 +1,10 @@
+from pathlib import Path
+
 import click
 import starfile
 import mrcfile
 
 import pandas as pd
-
-from pathlib import Path
 
 
 @click.command()
