@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+
+[project]
+name = "subtomotools"
+description = "Some scripts to facilitate subtomogram-averaging workflows."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "GPL-3.0-or-later"}
+authors = [
+    {email = "b.wimmer@bioc.uzh.ch", name = "Benedikt Wimmer"},
+    ]
+
+version = "0.1.0"
+
+dependencies = [
+    "click",
+    "starfile",
+    "mrcfile",
+    "numpy",
+    "pandas",
+    "tqdm"
+]
+
+[project.urls]
+homepage = "https://github.com/tomotools/subtomotools"
+repository = "https://github.com/tomotools/subtomotools"
+
+[project.scripts]
+project-particles = "subtomotools.particle_operations:project_particles"
+apply-selection = "subtomotools.particle_operations:apply_subset"
+upgrade-star = "subtomotools.star_operations:upgrade_star"
+downgrade-star = "subtomotools.star_operations:downgrade_star"
