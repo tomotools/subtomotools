@@ -13,4 +13,4 @@ Scripts to facilitate STA, interfacing Warp/M, Relion 3.1, TomoTwin and whatever
 ```apply-selection```: Apply subset of particles from 2D classification to subtomogram star.
 
 ### TomoTwin:
-```tomotwin2warp```: **not included yet**, will be conversion of a tomotwin-generated coords directory to a Warp-style star
+```tomotwin2warp```: Takes a folder of .coords files from TomoTwin, turns into star file based on prefix for subtomo reconstruction in Warp.
