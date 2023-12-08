@@ -194,6 +194,10 @@ def apply_subset(subset_star, subtomo_stars):
         subset_3d["rlnOriginXAngst"] = list(subset_2d["rlnOriginXAngst"])
         subset_3d["rlnOriginYAngst"] = list(subset_2d["rlnOriginXAngst"])
 
+        # if group is given, take over
+        if "rlnClassNumber" in subset_2d:
+            subset_3d["rlnClassNumber"] = list(subset_2d["rlnClassNumber"])
+
         starfile.write(
             {"optics": fullset_3d["optics"], "particles": subset_3d},
             Path(st_star).with_name(f"{Path(st_star).stem}_selected.star"),

@@ -22,7 +22,7 @@ dependencies = [
     "tqdm"
 ]
 
-[project.optinal-dependencies]
+[project.optional-dependencies]
 dev = [
     "ruff",
     ]
