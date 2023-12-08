@@ -179,7 +179,7 @@ def dedup_3d(radius, input_star):
     star = starfile.read(input_star)
 
     # Make sure both older and newer star files are handled properly
-    if type(star) is collections.OrderedDict:
+    if type(star) is collections.OrderedDict or dict:
         particles = star["particles"]
     else:
         particles = star
@@ -250,7 +250,7 @@ def dedup_3d(radius, input_star):
         f"{len(particles_dedup.index)} of {len(particles.index)} particles retained."
     )
 
-    if type(star) is collections.OrderedDict:
+    if type(star) is collections.OrderedDict or dict:
         starfile.write(
             {"optics": star["optics"], "particles": particles_dedup},
             input_star.with_stem(f"{input_star.stem}_dedup"),
