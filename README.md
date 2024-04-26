@@ -14,6 +14,7 @@ Scripts to facilitate STA, interfacing Warp/M, Relion 3.1, TomoTwin and whatever
 
 ### TomoTwin:
 ```tomotwin2warp```: Takes a folder of .coords files from TomoTwin, turns into star file based on prefix for subtomo reconstruction in Warp.
+```bash_helpers```: Bash-scripts to loop the steps of TomoTwin embedding and picking over many tomograms.
 
 ## Installation:
 
