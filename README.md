@@ -13,8 +13,8 @@ Scripts to facilitate STA, interfacing Warp/M, Relion 3.1, TomoTwin and whatever
 ```apply-selection```: Apply subset of particles from 2D classification to subtomogram star.
 
 ### TomoTwin:
-```tomotwin2warp```: Takes a folder of .coords files from TomoTwin, turns into star file based on prefix for subtomo reconstruction in Warp.
-```bash_helpers```: Bash-scripts to loop the steps of TomoTwin embedding and picking over many tomograms.
+```tomotwin2warp```: Takes a folder of .coords files from TomoTwin, turns into star file based on prefix for subtomo reconstruction in Warp.  
+```bash_helpers/*.sh```: Bash-scripts to loop the steps of TomoTwin embedding and picking over many tomograms.
 
 ## Installation:
 
