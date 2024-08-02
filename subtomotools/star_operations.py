@@ -179,20 +179,33 @@ def dedup_3d(radius, input_star):
     star = starfile.read(input_star)
 
     # Make sure both older and newer star files are handled properly
-    if type(star) is collections.OrderedDict or dict:
+    if isinstance(star, collections.OrderedDict) or isinstance(star, dict):
         particles = star["particles"]
     else:
         particles = star
 
-    # Create unique tomo ID based on Warp Session and Micrograph Name!
-    def return_session(str):
-        return str.split("/")[-4]
+    # If rlnImageName exists, create unique tomo ID based path
+    if "rlnImageName" in particles.columns:
 
-    particles["tomo_uid"] = (
-        particles["rlnImageName"].apply(return_session)
-        + "_"
-        + particles["rlnMicrographName"]
-    )
+        def return_session(str):
+            return str.split("/")[-4]
+
+        particles["tomo_uid"] = (
+            particles["rlnImageName"].apply(return_session)
+            + "_"
+            + particles["rlnMicrographName"]
+        )
+
+
+    # Otherwise, just take micrograph name
+    elif "rlnMicrographName" in particles.columns:
+        particles["tomo_uid"] = particles["rlnMicrographName"]
+
+    # Otherwise, assume all particle in one tomogram
+    else:
+        print("Neither micrograph nor image name found."
+              "Assuming all positions in one tomogram!")
+        particles["tomo_uid"] = "1"
 
     particles_dedup = pd.DataFrame()
 
@@ -239,9 +252,10 @@ def dedup_3d(radius, input_star):
         particles_dedup = pd.concat([particles_dedup, particles_dedup_temp])
 
     # Remove duplicate entries (if multiple classifications were merged)
-    particles_dedup = particles_dedup.drop_duplicates(
-        subset=["rlnImageName"], keep="first"
-    )
+    if "rlnImageName" in particles.columns:
+        particles_dedup = particles_dedup.drop_duplicates(
+            subset=["rlnImageName"], keep="first"
+        )
 
     # Remove uuid column
     del particles_dedup["tomo_uid"]
@@ -250,7 +264,7 @@ def dedup_3d(radius, input_star):
         f"{len(particles_dedup.index)} of {len(particles.index)} particles retained."
     )
 
-    if type(star) is collections.OrderedDict or dict:
+    if isinstance(star, collections.OrderedDict) or isinstance(star, dict):
         starfile.write(
             {"optics": star["optics"], "particles": particles_dedup},
             input_star.with_stem(f"{input_star.stem}_dedup"),
