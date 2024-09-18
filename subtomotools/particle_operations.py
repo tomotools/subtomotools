@@ -112,6 +112,13 @@ def project_particles(ctf, z_thickness, radius, input_star):
         particles_2d["rlnAngleTilt"] = particles["rlnAngleTilt"]
         particles_2d["rlnAnglePsi"] = particles["rlnAnglePsi"]
 
+    # Translations are only sometimes there
+    # Assume that they all come together
+    if "rlnOriginXAngst" in particles:
+        particles_2d["rlnOriginXAngst"] = particles["rlnOriginXAngst"]
+        particles_2d["rlnOriginYAngst"] = particles["rlnOriginYAngst"]
+        particles_2d["rlnOriginZAngst"] = particles["rlnOriginZAngst"]
+
     # New Info
     particles_2d["rlnImageName"] = [
         f"{i}@{input_star.with_name(input_star.stem)}_projected.mrcs"
