@@ -14,7 +14,7 @@ authors = [
     {email = "b.wimmer@bioc.uzh.ch", name = "Benedikt Wimmer"},
     ]
 
-version = "0.1.1"
+version = "0.1.2"
 
 dependencies = [
     "click",
@@ -40,7 +40,7 @@ apply-selection = "subtomotools.particle_operations:apply_subset"
 upgrade-star = "subtomotools.star_operations:upgrade_star"
 downgrade-star = "subtomotools.star_operations:downgrade_star"
 dedup-3d = "subtomotools.star_operations:dedup_3d"
-tomotwin2warp = "subtomotools.tomotwin_export:tomotwin2warp"
+coords2warp = "subtomotools.tomotwin_export:coords2warp"
 
 
 

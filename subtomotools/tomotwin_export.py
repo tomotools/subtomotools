@@ -41,13 +41,13 @@ def coords2warp(split, radius, coords_folder):
             uid, name = coord.stem.split("_", maxsplit=1)
             name = name.rsplit("_", maxsplit=1)[0]
 
-            # Create one output star per uid
-            if uid not in uid_dict:
-                uid_dict[uid] = pd.DataFrame()
-
         else:
             uid = "particles"
             name = coord.stem
+
+        # Create one output star per uid
+        if uid not in uid_dict:
+            uid_dict[uid] = pd.DataFrame()
 
         # improve naming for AreTomo-aligned TS
         if name.endswith("_ali_Imod"):
