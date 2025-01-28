@@ -6,14 +6,14 @@ Scripts to facilitate STA, interfacing Warp/M, Relion 3.1, TomoTwin and whatever
 ### Star-file:
 ```upgrade-star```: Upgrade Warp-style star to Relion 3.1.4.  
 ```downgrade-star```: Downgrade Relion-3-style star for Warp/M.  
-```dedup-3d```: Remove duplicate particles from star-file in 3D.  
+```dedup-3d```: Remove duplicate particles from star-file in 3D. 
+```coords2warp```: Takes a folder of .coords files from particle picking, turns into star file for subtomogram reconstruction in Warp.  
 
 ### Particles:
 ```project-particles```: Calculate 2D projections of subtomograms, with or without CTF correction. CTF correction requires CTF volume.  
 ```apply-selection```: Apply subset of particles from 2D classification to subtomogram star.
 
 ### TomoTwin:
-```tomotwin2warp```: Takes a folder of .coords files from TomoTwin, turns into star file based on prefix for subtomo reconstruction in Warp.  
 ```bash_helpers/*.sh```: Bash-scripts to loop the steps of TomoTwin embedding and picking over many tomograms.
 
 ## Installation:

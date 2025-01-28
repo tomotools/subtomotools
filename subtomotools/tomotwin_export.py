@@ -8,6 +8,11 @@ import subtomotools.utils as utils
 
 
 @click.command()
+@click.option("--split/--nosplit",
+              is_flag=True,
+              default=False,
+              show_default=True,
+              help="Split star files based on prefix of tomogram, before first _")
 @click.option(
     "--radius",
     "-r",
@@ -17,8 +22,10 @@ import subtomotools.utils as utils
     help="The radius within only 1 pick should be considered, in px",
 )
 @click.argument("coords_folder", type=click.Path(), nargs=1)
-def tomotwin2warp(radius, coords_folder):
+def coords2warp(split, radius, coords_folder):
     """Creates a Warp-style star file from a folder of coordinates.
+
+    Optionally, split into star-files based on prefix (before first "_")
 
     Radius of protein in pixels can be specified for deduplication of picks.
 
@@ -28,17 +35,23 @@ def tomotwin2warp(radius, coords_folder):
     uid_dict = {}
 
     for coord in coords_folder.glob("*.coords"):
-        # Split Unique ID / Name
-        uid, name = coord.stem.split("_", maxsplit=1)
-        name = name.rsplit("_", maxsplit=1)[0]
+
+        if split:
+            # Split Unique ID / Name
+            uid, name = coord.stem.split("_", maxsplit=1)
+            name = name.rsplit("_", maxsplit=1)[0]
+
+            # Create one output star per uid
+            if uid not in uid_dict:
+                uid_dict[uid] = pd.DataFrame()
+
+        else:
+            uid = "particles"
+            name = coord.stem
 
         # improve naming for AreTomo-aligned TS
         if name.endswith("_ali_Imod"):
             name = name[:-5]
-
-        # Create one output star per uid
-        if uid not in uid_dict:
-            uid_dict[uid] = pd.DataFrame()
 
         # Parse coordinates for all references
         coords = utils.parse_coords(coord)
@@ -53,7 +66,7 @@ def tomotwin2warp(radius, coords_folder):
             columns={0: "rlnCoordinateX", 1: "rlnCoordinateY", 2: "rlnCoordinateZ"},
             inplace=True,
         )
-        coords_dedup["rlnMicrographName"] = f"{name}.mrc"
+        coords_dedup["rlnMicrographName"] = f"{name}.tomostar"
 
         # Append to full set
         uid_dict[uid] = pd.concat([coords_dedup, uid_dict[uid]])

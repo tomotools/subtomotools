@@ -48,7 +48,7 @@ tomotwin2warp = "subtomotools.tomotwin_export:tomotwin2warp"
 # partially copied from github.com/teamtomo/membrain-seg
 line-length = 88
 target-version = "py38"
-extend-select = [
+lint.extend-select = [
     "E",    # style errors
     "W",    # style warnings
     "F",    # flakes
@@ -60,7 +60,7 @@ extend-select = [
     "A001", # flake8-builtins
     "RUF",  # ruff-specific rules
 ]
-extend-ignore = [
+lint.extend-ignore = [
     "D100", # Missing docstring in public module
     "D107", # Missing docstring in __init__
     "D203", # 1 blank line required before class docstring
