@@ -184,8 +184,9 @@ def dedup_3d(radius, input_star):
     else:
         particles = star
 
-    # If rlnImageName exists, create unique tomo ID based path
-    if "rlnImageName" in particles.columns:
+    # If rlnImageName and rlnMicrographName exists, create unique tomo ID based path
+    # This should cover Warp 1.X-style star-files
+    if "rlnImageName" in particles.columns and "rlnMicrographName" in particles.columns:
 
         def return_session(str):
             return str.split("/")[-4]
@@ -200,6 +201,10 @@ def dedup_3d(radius, input_star):
     # Otherwise, just take micrograph name
     elif "rlnMicrographName" in particles.columns:
         particles["tomo_uid"] = particles["rlnMicrographName"]
+
+    # Or TomoName for Relion5 style
+    elif "rlnTomoName" in particles.columns:
+        particles["tomo_uid"] = particles["rlnTomoName"]
 
     # Otherwise, assume all particle in one tomogram
     else:
@@ -217,8 +222,26 @@ def dedup_3d(radius, input_star):
         # Calculate shifted XYZ
         df_temp = pd.DataFrame()
 
-        if "rlnOriginXAngst" in particles_selected:
-            angpix = star["optics"]["rlnMicrographPixelSize"][0]
+        # Relion 5 style
+        if "rlnCenteredCoordinateXAngst" in particles_selected:
+            angpix = star["optics"]["rlnImagePixelSize"][0]
+
+            df_temp["X"] = particles_selected["rlnCenteredCoordinateXAngst"] - (
+                particles_selected["rlnOriginXAngst"]).divide(angpix)
+
+            df_temp["Y"] = particles_selected["rlnCenteredCoordinateYAngst"] - (
+                particles_selected["rlnOriginYAngst"]).divide(angpix)
+
+            df_temp["Z"] = particles_selected["rlnCenteredCoordinateZAngst"] - (
+                particles_selected["rlnOriginZAngst"]).divide(angpix)
+
+
+        elif "rlnOriginXAngst" in particles_selected:
+
+            if "rlnImagePixelSize" in star["optics"]:
+                angpix = star["optics"]["rlnImagePixelSize"][0]
+            elif "rlnMicrographPixelSize" in star["optics"]:
+                    angpix = star["optics"]["rlnMicrographPixelSize"][0]
 
             df_temp["X"] = particles_selected["rlnCoordinateX"] - (
                 particles_selected["rlnOriginXAngst"].divide(angpix)
@@ -265,13 +288,15 @@ def dedup_3d(radius, input_star):
     )
 
     if isinstance(star, collections.OrderedDict) or isinstance(star, dict):
-        starfile.write(
-            {"optics": star["optics"], "particles": particles_dedup},
-            input_star.with_stem(f"{input_star.stem}_dedup"),
+
+        star['particles'] = particles_dedup
+
+        starfile.write(star,
+            input_star.with_name(f"{input_star.stem}_dedup.star"),
         )
     else:
         starfile.write(
-            particles_dedup, input_star.with_stem(f"{input_star.stem}_dedup")
+            particles_dedup, input_star.with_name(f"{input_star.stem}_dedup.star")
         )
 
     return
