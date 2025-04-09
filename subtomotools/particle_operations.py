@@ -78,8 +78,8 @@ def project_particles(ctf, z_thickness, radius, input_star):
             # Use np.mean instead of np.sum to prevent overflow issues
             if z_thickness is not None:
                 z_thickness = int(z_thickness)
-                z_upper = int(np.floor(dim[0] / 2 + z_thickness / 2) - 1)
-                z_lower = int(np.floor(dim[0] / 2 - z_thickness / 2) - 1)
+                z_upper = int(np.floor(dim[0] / 2 + z_thickness / 2))
+                z_lower = int(np.floor(dim[0] / 2 - z_thickness / 2))
 
                 projections[index] = np.mean(subtomo[z_lower:z_upper], axis=0)
 

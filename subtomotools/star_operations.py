@@ -165,7 +165,7 @@ def downgrade_star(m, star):
     help="Deduplication radius in pixels.",
 )
 @click.argument("input_star", type=click.Path(), nargs=1)
-def dedup_3d(radius, input_star):
+def dedup_3d(radius, input_star): #noqa: C901
     """Deduplicate particles in a star file in 3D.
 
     Input star-file (either with or without optics groups) and a radius.
