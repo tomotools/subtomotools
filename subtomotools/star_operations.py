@@ -108,7 +108,7 @@ def downgrade_star(m, star):
     del particles["rlnGroupNumber"]
 
     # Add some optics info instead
-    angpix = star_parsed["optics"].iloc[0]["rlnMicrographPixelSize"]
+    angpix = star_parsed["optics"]["rlnMicrographPixelSize"]
 
     particles["rlnMagnification"] = 10000
     particles["rlnDetectorPixelSize"] = angpix
